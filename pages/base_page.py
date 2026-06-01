@@ -15,3 +15,10 @@ class BasePage():
         except NoSuchElementException:
             return False
         return True
+
+    def get_current_url(self):
+        return self.browser.current_url
+
+    def verify_url(self, expected_url):
+        current = self.get_current_url()
+        assert current == expected_url, f"URL wrong: expected {expected_url}, got {current}"
