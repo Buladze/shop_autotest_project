@@ -8,3 +8,4 @@ class LoginPageLocators():
 
 class MainPageLocators():
     ADD_TO_CART_BUTTON = (By.XPATH, "(//button[@class='btn btn_primary btn_small btn_inventory '])[1]")
+    RED_BADGE_OF_ADDED = (By.CSS_SELECTOR, ".shopping_cart_badge")
