@@ -3,7 +3,9 @@ from .pages.data import LoginPageData, ErrorMessages
 import pytest
 
 @pytest.mark.parametrize(
-    "test_data", LoginPageData.PASSWORDS
+    "test_data", 
+    LoginPageData.PASSWORDS,
+    ids=[f"password_{data['password']}" for data in LoginPageData.PASSWORDS]
 )
 def test_guest_can_login(browser, test_data):
     link = "https://www.saucedemo.com/"
@@ -23,6 +25,11 @@ def test_guest_can_login(browser, test_data):
         print(f"Успешный вход с паролем: {password}")
         main_page.add_to_cart()
         main_page.should_be_red_badge_of_added()
+        main_page.click_to_cart_page()
+        cart_page = main_page.go_to_cart_page()
+        cart_page.should_be_cart_page()
+        cart_page.remove_from_cart()
+        cart_page.should_not_be_cart_item_window()
     
     else:
         error_message = login_page.get_error_message()

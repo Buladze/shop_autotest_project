@@ -10,5 +10,8 @@ class LoginPageData():
 class MainPageData():
     URL_PAGE = "https://www.saucedemo.com/inventory.html"
 
+class CartPageData():
+    URL_PAGE = "https://www.saucedemo.com/cart.html"
+
 class ErrorMessages():
     INVALID_CREDENTIALS = "Epic sadface: Username and password do not match any user in this service"

@@ -1,4 +1,6 @@
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 class BasePage():
     def __init__(self, browser, url, timeout=5):
@@ -16,6 +18,15 @@ class BasePage():
             return False
         return True
 
+    def is_element_not_present(self, how, what):
+        try:
+            WebDriverWait(self.browser, timeout=2).until(
+                EC.presence_of_element_located((how, what))
+            )
+            return False
+        except TimeoutException:
+            return True
+            
     def get_current_url(self):
         return self.browser.current_url
 
