@@ -20,4 +20,25 @@ class MainPage(BasePage):
 
     def go_to_cart_page(self):
         return CartPage(browser=self.browser, url=CartPageData.URL_PAGE)
+
+    def click_to_sort_button(self, sort_type="az"):
+        sort_dropdown = self.browser.find_element(*MainPageLocators.SORT_DROPDOWN)
+        sort_dropdown.click()
         
+        sort_options = {
+            "az": MainPageLocators.SORT_A_TO_Z,
+            "za": MainPageLocators.SORT_Z_TO_A,
+            "lohi": MainPageLocators.SORT_LOW_TO_HIGH_PRICE,
+            "hilo": MainPageLocators.SORT_HIGH_TO_LOW_PRICE
+        }
+        
+        option = self.browser.find_element(*sort_options[sort_type])
+        option.click()
+    
+    def get_product_names(self):
+        name_elements = self.browser.find_elements(*MainPageLocators.PRODUCT_NAMES)
+        return [element.text for element in name_elements]
+    
+    def get_product_prices(self):
+        price_elements = self.browser.find_elements(*MainPageLocators.PRODUCT_PRICES)
+        return [float(element.text.replace('$', '')) for element in price_elements]

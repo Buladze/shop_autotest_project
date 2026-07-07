@@ -2,6 +2,8 @@ import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.firefox.options import Options as Options_Firefox
+from .pages.login_page import LoginPage
+from .pages.data import LoginPageData
 
 
 def pytest_addoption(parser):
@@ -36,3 +38,19 @@ def browser(request):
     yield browser
     print("\nquit browser..")
     browser.quit()
+
+
+@pytest.fixture
+def valid_login(browser):
+    BASE_URL = "https://www.saucedemo.com/"
+    login_page = LoginPage(browser, BASE_URL)
+    login_page.open()
+    login_page.should_be_login_button()
+    
+    valid_data = [data for data in LoginPageData.PASSWORDS if data["expected"] == "success"][0]
+    login_page.login(valid_data["password"])
+    
+    main_page = login_page.go_to_main_page()
+    main_page.should_be_main_page()
+    
+    return main_page
